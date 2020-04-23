@@ -93,16 +93,20 @@ if __name__ == '__main__':
     env.unwrapped.viewer.window.on_key_release = key_release
 
     counter = 0
+    total_reward = 0
     while not is_pressed_esc:
         env.render()
         update_action()
         action = [steering_wheel, gas, break_system]
         state, reward, done, info = env.step(action)
+        counter += 1
+        total_reward += reward
         print('Action:[{:+.1f}, {:+.1f}, {:+.1f}] Reward: {:.3f}'.format(action[0], action[1], action[2], reward))
         if done:
-            print("Episode finished after {0} timesteps".format(counter+1))
+            print("Restart game after {0} timesteps. Total Reward: {1}".format(counter, total_reward))
+            counter = 0
+            total_reward = 0
             state = env.reset()
-            counter += 1
             continue
 
     env.close()
