@@ -8,14 +8,14 @@ from tensorflow.keras.optimizers import Adam
 class CarRacingDQNAgent:
     def __init__(
         self,
-        action_space = [
+        action_space    = [
             (-1, 1, 0.2), (0, 1, 0.2), (1, 1, 0.2), #           Action Space Structure
             (-1, 1,   0), (0, 1,   0), (1, 1,   0), #        (Steering Wheel, Gas, Break)
             (-1, 0, 0.2), (0, 0, 0.2), (1, 0, 0.2), # Range        -1~1       0~1   0~1
             (-1, 0,   0), (0, 0,   0), (1, 0,   0)
         ],
         frame_stack_num = 3,
-        memory          = deque(maxlen=5000),
+        memory_size     = 5000,
         gamma           = 0.95,  # discount rate
         epsilon         = 1.0,   # exploration rate
         epsilon_min     = 0.1,   
@@ -24,17 +24,17 @@ class CarRacingDQNAgent:
     ):
         self.action_space    = action_space
         self.frame_stack_num = frame_stack_num
-        self.memory          = memory
+        self.memory          = deque(maxlen=memory_size)
         self.gamma           = gamma
         self.epsilon         = epsilon
         self.epsilon_min     = epsilon_min
         self.epsilon_decay   = epsilon_decay
         self.learning_rate   = learning_rate
-        self.model           = self._build_model()
-        self.target_model    = self._build_model()
+        self.model           = self.build_model()
+        self.target_model    = self.build_model()
         self.update_target_model()
 
-    def _build_model(self):
+    def build_model(self):
         # Neural Net for Deep-Q learning Model
         model = Sequential()
         model.add(Conv2D(filters=8, kernel_size=(7, 7), strides=3, activation='relu', input_shape=(96, 96, self.frame_stack_num)))
