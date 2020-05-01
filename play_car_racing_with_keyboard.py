@@ -103,7 +103,7 @@ if __name__ == '__main__':
         total_reward += reward
         print('Action:[{:+.1f}, {:+.1f}, {:+.1f}] Reward: {:.3f}'.format(action[0], action[1], action[2], reward))
         if done:
-            print("Restart game after {0} timesteps. Total Reward: {1}".format(counter, total_reward))
+            print("Restart game after {} timesteps. Total Reward: {}".format(counter, total_reward))
             counter = 0
             total_reward = 0
             state = env.reset()
