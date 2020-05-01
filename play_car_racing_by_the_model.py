@@ -1,10 +1,9 @@
 import argparse
 import gym
 from collections import deque
+from CarRacingDQNAgent import CarRacingDQNAgent
 from common_functions import process_state_image
 from common_functions import generate_state_frame_stack_from_queue
-from train_model import CarRacingDQNAgent
-
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Play CarRacing by the trained model.')
@@ -15,7 +14,7 @@ if __name__ == '__main__':
     play_episodes = args.episodes
 
     env = gym.make('CarRacing-v0')
-    agent = CarRacingDQNAgent()
+    agent = CarRacingDQNAgent(epsilon=0) # Set epsilon to 0 to ensure all actions are instructed by the agent
     agent.load(train_model)
     done = False
 
