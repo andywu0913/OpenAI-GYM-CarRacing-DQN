@@ -1,21 +1,9 @@
 import argparse
-import cv2
 import gym
-import numpy as np
 from collections import deque
+from common_functions import process_state_image
+from common_functions import generate_state_frame_stack_from_queue
 from train_model import CarRacingDQNAgent
-
-
-def process_state_image(state):
-    state = cv2.cvtColor(state, cv2.COLOR_BGR2GRAY)
-    state = state.astype(float)
-    state /= 255.0
-    return state
-
-def generate_state_frame_stack_from_queue(deque):
-    frame_stack = np.array(deque)
-    # Move stack dimension to the channel dimension (stack, x, y) -> (x, y, stack)
-    return np.transpose(frame_stack, (1, 2, 0))
 
 
 if __name__ == '__main__':
