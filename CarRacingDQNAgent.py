@@ -18,7 +18,7 @@ class CarRacingDQNAgent:
         memory_size     = 5000,
         gamma           = 0.95,  # discount rate
         epsilon         = 1.0,   # exploration rate
-        epsilon_min     = 0.1,   
+        epsilon_min     = 0.1,
         epsilon_decay   = 0.9999,
         learning_rate   = 0.001
     ):

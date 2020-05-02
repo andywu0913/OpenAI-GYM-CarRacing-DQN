@@ -4,12 +4,12 @@ from CarRacingDQNAgent import CarRacingDQNAgent
 from common_functions import process_state_image
 from common_functions import generate_state_frame_stack_from_queue
 
-RENDER = True
-START_EPISODE = 1
-END_EPISODES = 1000
-TRAINING_BATCH_SIZE = 64
-SAVE_TRAINING_FREQUENCY = 25
-UPDATE_TARGET_MODEL_FREQUENCY = 20
+RENDER                        = True
+STARTING_EPISODE              = 1
+ENDING_EPISODE                = 1000
+TRAINING_BATCH_SIZE           = 64
+SAVE_TRAINING_FREQUENCY       = 25
+UPDATE_TARGET_MODEL_FREQUENCY = 5
 
 if __name__ == '__main__':
     env = gym.make('CarRacing-v0')
@@ -17,7 +17,7 @@ if __name__ == '__main__':
     # agent.load('./save/trial_100.h5')
     done = False
 
-    for e in range(START_EPISODE, END_EPISODES+1):
+    for e in range(STARTING_EPISODE, ENDING_EPISODE+1):
         init_state = env.reset()
         init_state = process_state_image(init_state)
         total_reward = 0
@@ -41,20 +41,23 @@ if __name__ == '__main__':
             # If continually getting negative reward 10 times after the race map is fully loaded, punishment will be triggered
             punishment_counter = punishment_counter + 1 if time_frame_counter > 100 and reward < 0 else 0
 
-            # Reward the model more if it hits full gas
-            reward = reward*1.2 if action[1] == 1 and action[2] == 0 else reward
+            # Extra bonus for the model if it uses full gas
+            if action[1] == 1 and action[2] == 0:
+                reward *= 1.5
+            # Reduce the reward for the model if it releases gas and uses break
+            elif action[1] == 0 and action[2] == 0.2:
+                reward *= 0.8
 
             total_reward += reward
 
-            if not done:
-                next_state = process_state_image(next_state)
-                state_frame_stack_queue.append(next_state)
-                next_state_frame_stack = generate_state_frame_stack_from_queue(state_frame_stack_queue)
+            next_state = process_state_image(next_state)
+            state_frame_stack_queue.append(next_state)
+            next_state_frame_stack = generate_state_frame_stack_from_queue(state_frame_stack_queue)
 
-                agent.memorize(current_state_frame_stack, action, reward, next_state_frame_stack, done)
+            agent.memorize(current_state_frame_stack, action, reward, next_state_frame_stack, done)
 
             if done or punishment_counter >= 10 or total_reward < 0:
-                print('Episode: {}/{}, Score(Time Frames): {}, Total Reward(adjusted): {:.2}, Epsilon: {:.2}'.format(e, END_EPISODES, time_frame_counter, total_reward, agent.epsilon))
+                print('Episode: {}/{}, Scores(Time Frames): {}, Total Rewards(adjusted): {:.2}, Epsilon: {:.2}'.format(e, ENDING_EPISODE, time_frame_counter, float(total_reward), float(agent.epsilon)))
                 break
             if len(agent.memory) > TRAINING_BATCH_SIZE:
                 agent.replay(TRAINING_BATCH_SIZE)
