@@ -16,15 +16,16 @@ if __name__ == '__main__':
     env = gym.make('CarRacing-v0')
     agent = CarRacingDQNAgent(epsilon=0) # Set epsilon to 0 to ensure all actions are instructed by the agent
     agent.load(train_model)
-    done = False
 
     for e in range(play_episodes):
         init_state = env.reset()
         init_state = process_state_image(init_state)
+
         total_reward = 0
         punishment_counter = 0
         state_frame_stack_queue = deque([init_state]*agent.frame_stack_num, maxlen=agent.frame_stack_num)
         time_frame_counter = 1
+        
         while True:
             env.render()
 
@@ -36,7 +37,6 @@ if __name__ == '__main__':
 
             next_state = process_state_image(next_state)
             state_frame_stack_queue.append(next_state)
-            next_state_frame_stack = generate_state_frame_stack_from_queue(state_frame_stack_queue)
 
             if done:
                 print('Episode: {}/{}, Scores(Time Frames): {}, Total Rewards: {:.2}'.format(e+1, play_episodes, time_frame_counter, float(total_reward)))
