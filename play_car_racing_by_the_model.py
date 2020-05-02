@@ -39,7 +39,6 @@ if __name__ == '__main__':
             next_state_frame_stack = generate_state_frame_stack_from_queue(state_frame_stack_queue)
 
             if done:
-                agent.update_target_model()
-                print('Episode: {}/{}, Score(Time Frames): {}, Total Reward: {:.2}, Epsilon: {:.2}'.format(e+1, play_episodes, time_frame_counter, total_reward, agent.epsilon))
+                print('Episode: {}/{}, Scores(Time Frames): {}, Total Rewards: {:.2}'.format(e+1, play_episodes, time_frame_counter, float(total_reward)))
                 break
             time_frame_counter += 1
