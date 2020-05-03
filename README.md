@@ -18,7 +18,7 @@ The model can now drive faster and smoother after training 500 episodes with mak
 <img src="resources/trial_500.gif" width="300px">
 
 #### Training After 600 Episodes
-To acquire more rewards, the model learned how to drive recklessly and thus making it going off track when reaching sharp turns.
+To acquire more rewards greedily, the model has gone bad that learns how to drive recklessly and thus making it going off track when reaching sharp turns.
 <br>
 <img src="resources/trial_600.gif" width="300px">
 
@@ -58,3 +58,16 @@ python play_car_racing_by_the_model.py -m save/trial_XXX.h5 [-e 1]
 - `play_car_racing_by_the_model.py` The program for playing CarRacing by the model.
 - `play_car_racing_with_keyboard.py` The program for playing CarRacing with the keyboard.
 - `save/` The default folder to save the trained model.
+
+## Details Explained
+
+### The Deep Q Network(DQN) Structure
+The Deep Q Network(DQN) takes three consecutive top views of the current state of the 2d car racing game as the input and outputs the Q value for each action.
+- Note that the input shape is 96x96x3. The last dimension "3" doesn't mean "RGB" in colors but the 3 consecutive top views of the current state(96x96). The top view image only has one dimension because it is in grayscale. Color doesn't matter much in this game.
+- Convolutional layers are used for capturing features from the image.
+- Max pooling layers are used for preserving important features meanwhile discarding unnecessary information from the network in order to keep the network small.
+- Dense layers are the other terms for fully connected layers in Keras.
+- The output shape represents the Q value of the 12 actions. These actions are: 3 states of the steering wheel(left, straight, right), 2 states of the gas(full gas, release), and 2 states of the break(20% break, release).
+<br>
+<img src="resources/model_structure.png" width="450px">
+
