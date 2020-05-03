@@ -3,16 +3,16 @@
 Training machines to play CarRacing 2d from OpenAI GYM by implementing Deep Q Learning/Deep Q Network(DQN) with TensorFlow and Keras as the backend.
 
 ### Training Results
-![training_results](resources/training_results.png)
+<img src="resources/training_results.png" width="300px">
 
 ### Model Trained After 400 Episodes
-![training_results](resources/trial_400.gif)
+<img src="resources/trial_400.gif" width="300px">
 
 ### ♛♛♛ Model Trained After 500 Episodes ♛♛♛
-![training_results](resources/trial_500.gif)
+<img src="resources/trial_500.gif" width="300px">
 
 ### Model Trained After 600 Episodes
-![training_results](resources/trial_600.gif)
+<img src="resources/trial_600.gif" width="300px">
 
 ## Useage
 
