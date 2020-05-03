@@ -60,6 +60,7 @@ python play_car_racing_by_the_model.py -m save/trial_XXX.h5 [-e 1]
 - `save/` The default folder to save the trained model.
 
 ## Details Explained
+Deep Q Learning/Deep Q Network(DQN) is just a variation of Q Learning. It makes the neural network act like the Q table in Q Learning thus avoiding creating an unrealistic huge Q table containing Q values for every state and action.
 
 ### The Deep Q Network(DQN) Structure
 The Deep Q Network(DQN) takes three consecutive top views of the current state of the 2d car racing game as the input and outputs the Q value for each action.
@@ -67,7 +68,15 @@ The Deep Q Network(DQN) takes three consecutive top views of the current state o
 - Convolutional layers are used for capturing features from the image.
 - Max pooling layers are used for preserving important features meanwhile discarding unnecessary information from the network in order to keep the network small.
 - Dense layers are the other terms for fully connected layers in Keras.
-- The output shape represents the Q value of the 12 actions. These actions are: 3 states of the steering wheel(left, straight, right), 2 states of the gas(full gas, release), and 2 states of the break(20% break, release).
+- The output shape represents the Q value of the 12 actions. These actions are: 3 states of the steering wheel(left, straight, right), 2 states of the gas(full gas, release gas), and 2 states of the break(giving 20% break, release break).
 <br>
 <img src="resources/model_structure.png" width="450px">
+
+### How Self-Driving Works
+- During the game, the program will stack the latest three states 96x96 pixels grayscale images and feed them to the trained model.
+- The model produces the Q values for the 12 actions.
+- Choose the action that has the highest Q value for the agent to perform.
+- As long as the model is well trained, the action that has the highest Q value should be the best action(could obtain the most rewards) that the agent should react to the environment.
+- Repeat the steps above so that the car is now self-driving:)
+
 
