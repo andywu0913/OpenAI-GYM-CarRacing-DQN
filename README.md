@@ -63,7 +63,8 @@ python play_car_racing_by_the_model.py -m save/trial_XXX.h5 [-e 1]
 Deep Q Learning/Deep Q Network(DQN) is just a variation of Q Learning. It makes the neural network act like the Q table in Q Learning thus avoiding creating an unrealistic huge Q table containing Q values for every state and action.
 
 ### Q Value
-Q value is the expected rewards given by taking the specific action during the specific state. In a more mathematical saying, Q value can be written as:
+Q value is the expected rewards given by taking the specific action during the specific state.
+In a more mathematical saying, Q value can be written as:
 
 > Q(s,a) = r(s,a) + γ(maxQ(s',A))
 
@@ -82,11 +83,12 @@ Therefore, we should always choose the action with the highest Q value to maximi
 
 ### The DQN Structure
 The Deep Q Network(DQN) takes 3 consecutive top views of the current state of the 2d car racing game as the input and outputs the Q value for each action.
-- Note that the input shape is 96x96x3. The last dimension "3" doesn't mean "RGB" in colors but the 3 consecutive top views of the current state(96x96). The top view image has only one dimension because it is a grayscale image. Color doesn't matter much in this game. We take advantage of the original color dimension by storing the top view image stack.
+- Note that the input shape is 96x96x3. The last dimension "3" doesn't mean "RGB" in colors but the 3 consecutive top views of the current state(96x96). The top view image has only one dimension because it is a grayscale image. Color doesn't matter much in this game, so we take advantage of the original color dimension by storing the top view image stack.
 - Convolutional layers are used for capturing features from the image.
 - Max pooling layers are used for preserving important features meanwhile discarding unnecessary information from the network in order to keep the network small.
 - Dense layers are the other terms for fully connected layers in Keras.
 - The output shape represents the Q value of the 12 actions. These actions are: 3 states of the steering wheel(left, straight, right), 2 states of the gas(full gas, release gas), and 2 states of the break(giving 20% break, release break).
+- The `?` dimension is used for batch input.
 <br>
 <img src="resources/model_structure.png" width="400px">
 
